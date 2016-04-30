@@ -103,6 +103,10 @@ uint Graph::getNumEdges() const {
     return edgeList.size();
 }
 
+uint Graph::getDegree(uint node){
+    return adjLists[node].size();
+}
+
 uint Graph::getNumConnectedComponents() const {
     return connectedComponents.size();
 }

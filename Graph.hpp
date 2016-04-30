@@ -35,6 +35,7 @@ public:
 
     uint getNumNodes() const;
     uint getNumEdges() const;
+    uint getDegree(uint node) const;
     const vector<vector<ushort> >& getConnectedComponents() const;
     uint getNumConnectedComponents() const;
     void getAdjMatrix(vector<vector<bool> >& adjMatrixCopy) const;
