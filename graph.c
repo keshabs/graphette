@@ -18,20 +18,20 @@ GRAPH *GraphAlloc(unsigned int n, Boolean sparse)
     GRAPH *G = Calloc(1, sizeof(GRAPH));
     if(startup)
     {
-	startup = 0;
-	SetStartup();
+    	startup = 0;
+    	SetStartup();
     }
     G->sparse = sparse;
     G->n = n;
     G->A = NULL;
     G->degree = Calloc(n, sizeof(G->degree[0]));
     if(sparse)
-	G->neighbor = Calloc(n, sizeof(G->neighbor[0]));
+	    G->neighbor = Calloc(n, sizeof(G->neighbor[0]));
     else
     {
-	G->A = Calloc(n, sizeof(G->A[0]));
-	for(i=0; i<n; i++)
-	    G->A[i] = SetAlloc(n);
+    	G->A = Calloc(n, sizeof(G->A[0]));
+    	for(i=0; i<n; i++)
+    	    G->A[i] = SetAlloc(n);
     }
     return G;
 }
@@ -695,15 +695,15 @@ Boolean GraphsIsomorphic(GRAPH *G1, GRAPH *G2)
     ** Ensure each degree occurs the same number of times in each.
     */
     for(i=0; i<n; i++)
-	degreeCount1[i] = degreeCount2[i] = 0;
+	   degreeCount1[i] = degreeCount2[i] = 0;
     for(i=0; i<n; i++)
     {
-	++degreeCount1[G1->degree[i]];
-	++degreeCount2[G2->degree[i]];
+	   ++degreeCount1[G1->degree[i]];
+	   ++degreeCount2[G2->degree[i]];
     }
     for(i=0; i<n; i++)
-	if(degreeCount1[i] != degreeCount2[i])
-	    return false;
+	   if(degreeCount1[i] != degreeCount2[i])
+	       return false;
 
     /*
     ** Let degree d appear only once.  Then there is exactly one vertex
@@ -725,8 +725,8 @@ Boolean GraphsIsomorphic(GRAPH *G1, GRAPH *G2)
 
 	    /* find the (unique) vertex in G2 that has the same degree */
 	    for(j=0; j < n; j++)
-		if(G2->degree[j] == degree)
-		    break;
+    		if(G2->degree[j] == degree)
+    		    break;
 	    assert(j < n);
 
 	    assert(!G1->sparse && !G2->sparse);
