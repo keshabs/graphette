@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include "bits_vector.hpp"
-#include "convert_to_decimal.hpp"
 #include "generate_all_graphs.hpp"
 #include "generate_all_bits_vectors.hpp"
 #include "printUpperTriangle.hpp"
