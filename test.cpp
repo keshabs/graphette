@@ -11,7 +11,7 @@ static Graph *isoG1, *isoG2;
 
 bool GraphAreConnected(Graph *G, int i, int j)
 {
-    assert(0 <= i && i < G->getNumNodes() && 0 <= j && j < G->getNumNodes());
+    assert(0 <= i && i < (int)G->getNumNodes() && 0 <= j && j < (int)G->getNumNodes());
 
 	int k, n, me, other;
 	vector<ushort> neighbors;
@@ -25,7 +25,10 @@ bool GraphAreConnected(Graph *G, int i, int j)
 	    me = j; other = i;
 	}
 	n = G->getDegree(me);
-	neighbors = G->returnAdjLists()[me];
+	//Convert this to SANA graph class neighbors = G->returnAdjLists()[me];
+	vector<vector<ushort>> adjList;
+	G->getAdjLists(adjList);
+	neighbors = adjList[me];
 	for(k=0; k<n; k++)
 	    if(neighbors[k] == other)
 		return true;
