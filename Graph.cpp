@@ -95,16 +95,24 @@ Graph::Graph(uint n, const vector<vector<ushort> > edges) {
     initConnectedComponents();
 }
 
+
+// Constructor that takes n nodes
+Graph::Graph(int n) :
+    edgeList(vector<vector<ushort> > (0)),
+    adjMatrix(vector<vector<bool>> (n, vector<bool>(n))),
+    adjLists(vector<vector<ushort>> (n, vector<ushort>(n))),
+    lockedList(vector<bool> (0)),
+    lockedTo(vector<string>(0)),         
+    lockedCount(0)
+    {}
+
+
 uint Graph::getNumNodes() const {
     return adjLists.size();
 }
 
 uint Graph::getNumEdges() const {
     return edgeList.size();
-}
-
-uint Graph::getDegree(uint node) const{
-    return adjLists[node].size();
 }
 
 uint Graph::getNumConnectedComponents() const {
@@ -408,8 +416,10 @@ ushort Graph::randomNode() {
 }
 
 //note: does not update CCs
-void Graph::addEdge(ushort node1, ushort node2) {
+void Graph::addEdge(ushort node1, ushort node2) 
+{
     adjMatrix[node1][node2] = adjMatrix[node2][node1] = true;
+     std::cout << "Hello\n";
     vector<ushort> edge(2);
     edge[0] = node1;
     edge[1] = node2;
@@ -995,4 +1005,48 @@ string Graph::getLockedTo(uint index){
 int Graph::getLockedCount(){
 	return lockedCount;
 }
+
+
+//My function
+void Graph::setAdjMatrix(vector<bool>& v)
+{
+	int k = 0;
+	for (unsigned int i = 0; i < this->getNumNodes(); i++)
+	{
+		for (unsigned int j = 0; j < this->getNumNodes(); j++)
+		{
+			if (i < j)
+			{
+				adjMatrix[i][j] = v[k];
+				k++;
+			}
+		}	
+	}		
+}
+
+void Graph::print_adjMatrix(bool upper)
+{
+	for (unsigned int i = 0; i < this->getNumNodes(); i++)
+	{
+		for (unsigned int j = 0; j < this->getNumNodes(); j++)
+		{
+			if (upper)
+			{
+				if (i < j)
+					std::cout << adjMatrix[i][j] << " ";
+				else
+					std::cout << "  ";
+			}
+			else
+				std::cout << adjMatrix[i][j] << " ";
+		}
+		std::cout << "\n";
+	}
+}
+
+
+
+
+
+
 

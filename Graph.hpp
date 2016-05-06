@@ -30,12 +30,15 @@ public:
 
 
     Graph(uint n, const vector<vector<ushort> > edgeList);
+    
+    // My constructor that takes n nodes
+    Graph(int n);
 
     string getName() const;
-
+    
+    
     uint getNumNodes() const;
     uint getNumEdges() const;
-    uint getDegree(uint node) const;
     const vector<vector<ushort> >& getConnectedComponents() const;
     uint getNumConnectedComponents() const;
     void getAdjMatrix(vector<vector<bool> >& adjMatrixCopy) const;
@@ -95,6 +98,10 @@ public:
     bool isLocked(uint index);
     string getLockedTo(uint index);
     int getLockedCount();
+
+    //My function
+    void setAdjMatrix(vector<bool>& v);
+    void print_adjMatrix(bool upper = 0);
 
 private:
 
