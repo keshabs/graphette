@@ -139,6 +139,10 @@ void Graph::getEdgeList(vector<vector<ushort> >& edgeListCopy) const {
     edgeListCopy = edgeList;
 }
 
+uint Graph::getDegree(uint node){
+     return adjLists[node].size();
+}
+
 const vector<vector<ushort> >& Graph::getConnectedComponents() const {
     return connectedComponents;
 }
