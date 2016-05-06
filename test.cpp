@@ -8,14 +8,15 @@ using namespace std;
 
 static Graph *isoG1, *isoG2;
 
+
 bool GraphAreConnected(Graph *G, int i, int j)
 {
     assert(0 <= i && i < G->getNumNodes() && 0 <= j && j < G->getNumNodes());
-    if(G->sparse)
-    {
-	int k, n, *neighbors, me, other;
+
+	int k, n, me, other;
+	vector<ushort> neighbors;
 	// Check through the shorter list
-	if(G->degree[i] < G->degree[j])
+	if(G->getDegree(i) < G->getDegree(j))
 	{
 	    me = i; other = j;
 	}
@@ -23,24 +24,13 @@ bool GraphAreConnected(Graph *G, int i, int j)
 	{
 	    me = j; other = i;
 	}
-	n = G->degree[me];
-	neighbors = G->neighbor[me];
+	n = G->getDegree(me);
+	neighbors = G->returnAdjLists()[me];
 	for(k=0; k<n; k++)
 	    if(neighbors[k] == other)
 		return true;
 	return false;
-    }
-    else
-    {
-	if(SetIn(G->A[i],j))
-	{
-	    if(!SetIn(G->A[j],i))
-		Fatal("SetIn(%d,%d)=%ld, SetIn(%d,%d)=%ld\n", i,j,SetIn(G->A[i],j), j,i,SetIn(G->A[j],i));
-	    return true;
-	}
-	else
-	    return false;
-    }
+
 }
 
 static bool _allPermutations
@@ -68,14 +58,7 @@ static bool _allPermutations
     }
     return false;
 }
-
-bool CombinAllPermutations(int n, bool (*fcn)(int, int *))
-{
-    int array[n];
-    return _allPermutations(n, 0, array, fcn);
-}
-
-static bool _permutationIdentical(int n, int perm[n])
+bool _permutationIdentical(int n, int perm[])
 {
     int i, j;
     for(i=0; i<n; i++)
@@ -90,7 +73,15 @@ static bool _permutationIdentical(int n, int perm[n])
     return true;   /* isomorphic! */
 }
 
-bool graphIsomorphic(const Graph& G1, const Graph& G2){
+bool CombinAllPermutations(int n, bool (*fcn)(int, int *))
+{
+    int array[n];
+    return _allPermutations(n, 0, array, fcn);
+}
+
+
+
+bool graphIsomorphic(Graph& G1, Graph& G2){
 	 int i, n = G1.getNumNodes(), degreeCount1[n], degreeCount2[n];
 
 	 if(G1.getNumNodes() != G2.getNumNodes())
@@ -120,13 +111,17 @@ int main(){
 	
 
 
-	Graph g1(4, vector<vector<ushort>>{{1,3},{0,3},{0,1}});
+	Graph g1(5, vector<vector<ushort>>{{0,1},{1,4},{4,0}});
 
-	cout <<"num of nodes: " <<  g1.getNumNodes() << endl;
-	cout <<"num of edges: " <<g1.getNumEdges() << endl;
-	cout <<"degree of node 1: " << g1.getDegree(1) << endl;
-	cout <<"degree of node 2: " << g1.getDegree(2) << endl;
-	cout <<"degree of node 3: " << g1.getDegree(3) << endl;
+	Graph g2(5,vector<vector<ushort>>{{1,3},{3,2},{1,4}});
+
+	Graph g3(5,vector<vector<ushort>>{{1,3},{3,4},{1,4}});
+
+
+
+	cout<< "isomorphic? = " << (graphIsomorphic(g1,g2) ? "yes" : "no") << endl; // should be no
+	cout<< "isomorphic? = " << (graphIsomorphic(g1,g3) ? "yes" : "no") << endl; // should be yes
+	cout<< "isomorphic? = " << (graphIsomorphic(g2,g3) ? "yes" : "no") << endl; // should be no
 
 
 	return 0;
