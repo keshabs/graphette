@@ -26,10 +26,10 @@ int main(int arg, char* argv[])
 	     // 0 --> full matrix
 	     // 1 --> upper right triangle only
 
-	        // PRINT THE MATRIX AND ITS DECIMAL REPRESENTATION
+	    // PRINT THE MATRIX AND ITS DECIMAL REPRESENTATION
 		std::cout << "Decimal Rep: " << graph_vectors[i].get_decimal_representation()  << "\n";
-	        graph_vectors[i].print_adjMatrix(1);
-	        std::cout << "\n";
+	    graph_vectors[i].print_adjMatrix(1);
+	    std::cout << "\n";
 	}
 		
 
