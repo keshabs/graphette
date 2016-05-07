@@ -39,7 +39,7 @@ void print_bits_vector(std::vector<bool> bv)
 //}
 
 
-int main()
+int main(int argv, char *argc[])
 {
 //      IGNORE THIS COMMENT SECTION PART. THIS IS JUST MY DRAFT WORKS.
 //	int dim = 4;
@@ -55,7 +55,7 @@ int main()
 //		}
 //	}
 
-	std::vector<Graph> graph_vectors = generate_all_graphs(4);
+	std::vector<Graph> graph_vectors = generate_all_graphs(atoi(argc[1]));
 	std::cout << "Number of graphs: " << graph_vectors.size() << "\n\n";
 ;
 	for (unsigned int i = 0; i < graph_vectors.size(); i++)
