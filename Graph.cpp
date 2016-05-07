@@ -1021,11 +1021,13 @@ void Graph::setAdjMatrix(vector<bool>& v)
 		{
 			if (i < j)
 			{
-				adjMatrix[i][j] = v[k];
+			if (v[k]){
+				addEdge(i,j);}
 				k++;
 			}
 		}	
 	}		
+	initConnectedComponents();
 }
 
 void Graph::print_adjMatrix(bool upper)
