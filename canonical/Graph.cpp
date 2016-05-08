@@ -95,18 +95,6 @@ Graph::Graph(uint n, const vector<vector<ushort> > edges) {
     initConnectedComponents();
 }
 
-
-// Constructor that takes n nodes
-Graph::Graph(int n) :
-    edgeList(vector<vector<ushort> > (0)),
-    adjMatrix(vector<vector<bool>> (n, vector<bool>(n))),
-    adjLists(vector<vector<ushort>> (n, vector<ushort>(0))),
-    lockedList(vector<bool> (0)),
-    lockedTo(vector<string>(0)),         
-    lockedCount(0)
-    {}
-
-
 uint Graph::getNumNodes() const {
     return adjLists.size();
 }
@@ -419,7 +407,6 @@ ushort Graph::randomNode() {
 void Graph::addEdge(ushort node1, ushort node2) 
 {
     adjMatrix[node1][node2] = adjMatrix[node2][node1] = true;
-     std::cout << "Hello\n";
     vector<ushort> edge(2);
     edge[0] = node1;
     edge[1] = node2;
@@ -1007,7 +994,15 @@ int Graph::getLockedCount(){
 }
 
 
-//My function
+//My functions and constructor 
+Graph::Graph(int n) :
+    edgeList(vector<vector<ushort> > (0)),
+    adjMatrix(vector<vector<bool>> (n, vector<bool>(n))),
+    adjLists(vector<vector<ushort>> (n, vector<ushort>(0))),
+    lockedList(vector<bool> (0)),
+    lockedTo(vector<string>(0)),         
+    lockedCount(0)
+    {}
 void Graph::setAdjMatrix(vector<bool>& v)
 {
 	int k = 0;
@@ -1018,10 +1013,8 @@ void Graph::setAdjMatrix(vector<bool>& v)
 			if (i < j)
 			{
 				adjMatrix[i][j] = v[k];
-				if (v[k] == 1)
+				if (v[k])
 				{
-					//adjLists[i].push_back(j);
-					//adjLists[j].push_back(i);
 					this->addEdge(i,j);
 				}
 				k++;
