@@ -23,6 +23,8 @@ OTHER_SRC =                                             \
 	generate_all_graphs.cpp				\
 	generate_all_bits_vectors.cpp                   \
 	graphIsomorphic.cpp				\
+	generate_canonical.cpp				\
+	get_canonical.cpp				\
 		
 
 
