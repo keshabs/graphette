@@ -14,9 +14,9 @@ std::vector<Graph*> generate_all_graphs(int num_nodes)
 		// Otherwise, we will get Segmentation Fault if we don't intialize these
 		// private members in Graph class.
 		Graph* g = new Graph(num_nodes);
-        g->setAdjMatrix(all_bits_vectors[i]);
-        g->set_decimal_representation(i);
-        result.push_back(g);
+        	g->setAdjMatrix(all_bits_vectors[i]);
+	        g->set_decimal_representation(i);
+        	result.push_back(g);
 	}	
 
 	
