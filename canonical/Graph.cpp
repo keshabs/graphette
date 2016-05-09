@@ -61,6 +61,7 @@ Graph::Graph() :
     edgeList(vector<vector<ushort> > (0)),
     adjMatrix(vector<vector<bool> > (0)),
     adjLists(vector<vector<ushort> > (0)),
+    decimal_representation(0),
     lockedList(vector<bool> (0)),
     lockedTo(vector<string>(0)),
     lockedCount(0)
@@ -70,6 +71,7 @@ Graph::Graph(const Graph& G) {
     edgeList = vector<vector<ushort> > (G.edgeList);
     adjMatrix = vector<vector<bool> > (G.adjMatrix);
     adjLists = vector<vector<ushort> > (G.adjLists);
+    decimal_representation = G.decimal_representation;
     connectedComponents = vector<vector<ushort> > (G.connectedComponents);
     lockedList = vector<bool> (G.lockedList);
     lockedTo = vector<string> (G.lockedTo);
@@ -93,6 +95,7 @@ Graph::Graph(uint n, const vector<vector<ushort> > edges) {
         adjMatrix[node1][node2] = adjMatrix[node2][node1] = true;
     }
     initConnectedComponents();
+    construct_decimal_representation();
 }
 
 uint Graph::getNumNodes() const {
@@ -1057,4 +1060,28 @@ void Graph::set_decimal_representation(int n)
 int Graph::get_decimal_representation() const
 {
 	return decimal_representation;
+}
+
+void Graph::construct_decimal_representation()
+{
+    int result = 0;
+    int k = 0;
+
+    for (int i = adjMatrix.size() - 1; i >= 0; i--)
+    {   
+        for (int j = adjMatrix.size() - 1; j >= 0; j--)   
+        {
+            if (i < j)
+            {
+                if (adjMatrix[i][j])
+                {
+                    int n = pow(2, k);
+                    result += n;
+                }
+                k++;
+            }
+        }
+    }
+    
+    decimal_representation = result;
 }

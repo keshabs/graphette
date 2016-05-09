@@ -103,6 +103,7 @@ public:
     uint getDegree(uint node) const;
     void set_decimal_representation(int n);
     int get_decimal_representation() const;
+    void construct_decimal_representation();
 
 private:
 
