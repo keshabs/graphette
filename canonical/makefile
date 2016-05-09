@@ -22,7 +22,6 @@ OTHER_SRC =                                             \
 	bits_vector.cpp					\
 	generate_all_graphs.cpp				\
 	generate_all_bits_vectors.cpp                   \
-	printUpperTriangle.cpp				\
 	graphIsomorphic.cpp				\
 		
 
