@@ -1003,6 +1003,7 @@ Graph::Graph(int n) :
     lockedTo(vector<string>(0)),         
     lockedCount(0)
     {}
+
 void Graph::setAdjMatrix(vector<bool>& v)
 {
 	int k = 0;
@@ -1057,5 +1058,3 @@ int Graph::get_decimal_representation() const
 {
 	return decimal_representation;
 }
-
-

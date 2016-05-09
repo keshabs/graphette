@@ -30,9 +30,6 @@ public:
 
 
     Graph(uint n, const vector<vector<ushort> > edgeList);
-    
-    // My constructor that takes n nodes
-    Graph(int n);
 
     string getName() const;
     
@@ -99,7 +96,8 @@ public:
     string getLockedTo(uint index);
     int getLockedCount();
 
-    //My function
+    //My functions and constructor
+    Graph(int n);
     void setAdjMatrix(vector<bool>& v);
     void print_adjMatrix(bool upper = 0);
     uint getDegree(uint node) const;
