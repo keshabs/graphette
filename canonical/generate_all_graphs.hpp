@@ -28,7 +28,7 @@
 // x means we don't care about values in that position.
 
 // So with 4 nodes, generate_all_graphs will generate 64 graphs.
-std::vector<Graph> generate_all_graphs(int node_number);
+std::vector<Graph*> generate_all_graphs(int node_number);
 
 
 #endif // GENERATE_ALL_GRAPHS_HPP
