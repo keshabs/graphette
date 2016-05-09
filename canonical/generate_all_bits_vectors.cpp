@@ -1,8 +1,5 @@
 #include "generate_all_bits_vectors.hpp"
 
-
-
-
 std::vector<std::vector<bool>> generate_all_bits_vectors(int num_nodes)
 {
 	//int num_vectors = pow(2, num_nodes);
