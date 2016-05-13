@@ -4,6 +4,24 @@
 #include "Graph.hpp"
 #include "generate_canonical.hpp"
 #include "get_canonical.hpp"
+#include "graphIsomorphic.hpp"
+
+using namespace std;
+
+vector<ushort> canonicalMapping(vector<Graph*>& graph_vectors,vector<Graph*>& graph_canonical){
+	vector<ushort> map(graph_vectors.size());
+	for (Graph* g: graph_vectors)
+	{
+		for(Graph* cg: graph_canonical){
+			if(graphIsomorphic(*g,*cg)){
+				map[g->get_decimal_representation()] = cg->get_decimal_representation();
+				break;
+			}
+
+		}
+	}
+	return map;
+}
 
 int main(int arg, char* argv[])
 {
@@ -13,6 +31,8 @@ int main(int arg, char* argv[])
 	// Generate the canonical array, in this case it's a vector.
 	std::vector<Graph*> graph_vectors = generate_all_graphs(atoi(argv[1]));
 	std::vector<Graph*> graph_canonical = generate_canonical(graph_vectors);
+	std::vector<ushort> canonical_map= canonicalMapping(graph_vectors,graph_canonical);
+
 	std::cout << "Number of graphs: " << graph_vectors.size() << "\n";
 	std::cout << "Size of canonical: " << graph_canonical.size() << "\n\n";
 
