@@ -16,7 +16,7 @@
 // Ex:
 // num_nodes = 4       --->    Length of vector must be 6
 // decimal_number = 3  --->    011 in binary
-// vector = [0, 1, 1]  --->    vector = [0, 0, 1, 1]
+// vector = [0, 1, 1]  --->    vector = [0, 0, 0, 0, 1, 1]
 
 std::vector<bool> bits_vector(int decimal_number, int num_nodes);
 
@@ -43,7 +43,7 @@ std::vector<bool> bits_vector(int decimal_number, int num_nodes);
 // .
 // .
 // .
-// v62 = [1, 1, 1 ,1 ,1, 1]
+// v63 = [1, 1, 1 ,1 ,1, 1]
 std::vector<std::vector<bool>> generate_all_bits_vectors(int num_nodes);
 
 // This functions is similar to generate_all_bits_vectors function.
