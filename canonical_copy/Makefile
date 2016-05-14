@@ -82,5 +82,3 @@ clear_cache:
 
 depend: $(SRCS)
 	makedepend $(INCLUDES) $^
-
-
