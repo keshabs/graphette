@@ -20,7 +20,7 @@ OTHER_SRC =                                             \
 	Graph.cpp                                       \
 	main.cpp					\
 	graphette.cpp				        \
-	graphIsomorphic.cpp 								\
+
 
 
 SRCS = $(UTILS_SRC) $(OTHER_SRC)

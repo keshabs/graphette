@@ -73,10 +73,10 @@ std::vector<Graph*> generate_canonical(const std::vector<Graph*>& graph_vectors)
 
 Graph* get_canonical(Graph* g, std::vector<Graph*> graph_canonical);
 
-// bool GraphAreConnected(Graph *G, int i, int j);
-// bool _permutationIdentical(int n, int perm[]);
-// bool CombinAllPermutations(int n, bool (*fcn)(int, int *));
-// bool graphIsomorphic(Graph& G1, Graph& G2);
+bool GraphAreConnected(Graph *G, int i, int j);
+bool _permutationIdentical(int n, int perm[]);
+bool CombinAllPermutations(int n, bool (*fcn)(int, int *));
+bool graphIsomorphic(Graph& G1, Graph& G2);
 
 
 #endif // GRAPHETTE_HPP
