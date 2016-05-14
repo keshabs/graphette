@@ -7,7 +7,6 @@
 #include <set>
 #include <assert.h>
 #include "Graph.hpp"
-#include "graphIsomorphic.hpp"
 
 // This function takes a decimal number and a number of nodes
 // to find the binary representation of the decimal number and
@@ -77,6 +76,15 @@ bool GraphAreConnected(Graph *G, int i, int j);
 bool _permutationIdentical(int n, int perm[]);
 bool CombinAllPermutations(int n, bool (*fcn)(int, int *));
 bool graphIsomorphic(Graph& G1, Graph& G2);
+
+vector<ushort> canonicalMapping(vector<Graph*>& graph_vectors,vector<Graph*>& graph_canonical);
+
+// Take a decimal input and put the its binary form into a matrix
+// of n nodes
+std::vector<std::vector<bool>> decimal_to_matrix(int decimal_number, int num_nodes);
+
+// Print only the upper half a matrix
+void print_matrix(std::vector<std::vector<bool>> matrix);
 
 
 #endif // GRAPHETTE_HPP

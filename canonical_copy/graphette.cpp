@@ -4,11 +4,17 @@ std::vector<bool> bits_vector(int decimal_number, int num_nodes)
 {
 	int num_possible_edges = (num_nodes*(num_nodes-1)) / 2;
 	std::vector<bool> result(num_possible_edges);
-	
+
 	// Convert to binary number and put each bit in result vector.
 	int i = result.size() - 1;
 	while (decimal_number != 0)
 	{
+		// This assertion assures that the length of binary in a decimal number
+		// will not exceed the number of possible edges.
+		// Ex: 
+		// num_possible_edges = 6
+		// Length of bits must be <= num_possible_edges
+		assert(i >= 0 && "Binary length exceeds number of possible edges");
 		result[i] = decimal_number % 2;
 		--i;
 		decimal_number /= 2;	
@@ -20,9 +26,7 @@ std::vector<bool> bits_vector(int decimal_number, int num_nodes)
 
 std::vector<std::vector<bool>> generate_all_bits_vectors(int num_nodes)
 {
-	//int num_vectors = pow(2, num_nodes);
 	int num_vectors = pow(2, (num_nodes*(num_nodes - 1)) / 2);
-	//std::vector<std::vector<bool>> result(num_vectors, std::vector<bool>(num_vectors));
 	std::vector<std::vector<bool>> result;
 	
 	for (int i = 0; i < num_vectors; i++)
@@ -51,9 +55,9 @@ std::vector<Graph*> generate_all_graphs(int num_nodes)
 		// Otherwise, we will get Segmentation Fault if we don't intialize these
 		// private members in Graph class.
 		Graph* g = new Graph(num_nodes);
-        	g->setAdjMatrix(all_bits_vectors[i]);
-	        g->set_decimal_representation(i);
-        	result.push_back(g);
+        g->setAdjMatrix(all_bits_vectors[i]);
+	    g->set_decimal_representation(i);
+       	result.push_back(g);
 	}	
 
 	
@@ -220,4 +224,60 @@ bool graphIsomorphic(Graph& G1, Graph& G2)
     isoG1 = &G1; isoG2 = &G2;
     return !!CombinAllPermutations(n,_permutationIdentical);
 
+}
+
+vector<ushort> canonicalMapping(vector<Graph*>& graph_vectors, vector<Graph*>& graph_canonical)
+{
+	vector<ushort> map(graph_vectors.size());
+	for (Graph* g: graph_vectors)
+	{
+		for(Graph* cg: graph_canonical)
+		{
+			if(graphIsomorphic(*g,*cg))
+			{
+				map[g->get_decimal_representation()] = cg->get_decimal_representation();
+				break;
+			}
+
+		}
+	}
+	return map;
+}
+
+
+std::vector<std::vector<bool>> decimal_to_matrix(int decimal_number, int num_nodes)
+{
+	std::vector<bool> bv = bits_vector(decimal_number, num_nodes);
+	std::vector<std::vector<bool>> result(num_nodes, std::vector<bool>(num_nodes));
+
+	int k = 0;
+	for (int i = 0; i < num_nodes; i++)
+	{
+		for (int j = 0; j < num_nodes; j++)
+		{
+			if (i < j)
+			{
+				result[i][j] = bv[k];
+				k++;
+			}
+		}
+	}
+	
+	return result;
+}
+
+
+void print_matrix(std::vector<std::vector<bool>> matrix)
+{
+	for (unsigned int i = 0; i < matrix.size(); i++)
+	{
+		for (unsigned int j = 0; j < matrix.size(); j++)
+		{
+			if (i < j)
+				std::cout << matrix[i][j] << " ";
+			else
+				std::cout << "  ";
+		}
+		std::cout << "\n";
+	}
 }
