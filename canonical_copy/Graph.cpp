@@ -472,7 +472,7 @@ void Graph::removeRandomEdge() {
 }
 
 void Graph::addRandomEdges(double addedEdgesProportion) {
-    uint n = (double) getNumNodes() * addedEdgesProportion;
+    uint n = (double) getNumEdges() * addedEdgesProportion;
     for (uint i = 0; i <= n; i++) {
         addRandomEdge();
     }
@@ -480,7 +480,7 @@ void Graph::addRandomEdges(double addedEdgesProportion) {
 }
 
 void Graph::removeRandomEdges(double removedEdgesProportion) {
-    uint n = (double) getNumNodes() * removedEdgesProportion;
+    uint n = (double) getNumEdges() * removedEdgesProportion;
     for (uint i = 0; i <= n; i++) {
         removeRandomEdge();
     }
@@ -488,7 +488,7 @@ void Graph::removeRandomEdges(double removedEdgesProportion) {
 }
 
 void Graph::rewireRandomEdges(double rewiredEdgesProportion) {
-    uint n = (double) getNumNodes() * rewiredEdgesProportion;
+    uint n = (double) getNumEdges() * rewiredEdgesProportion;
     for (uint i = 0; i <= n; i++) {
         addRandomEdge();
         removeRandomEdge();
