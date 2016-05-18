@@ -1085,3 +1085,17 @@ void Graph::construct_decimal_representation()
     
     decimal_representation = result;
 }
+
+void Graph::print_adjLists()
+{
+    for (unsigned int i = 0; i < adjLists.size(); i++)
+    {
+        std::cout << "Start node: " << i << " --> ";
+        for (unsigned int j = 0; j < adjLists[i].size(); j++)
+        {
+            std::cout << adjLists[i][j] << " ";
+        }
+        std::cout << "\n";
+    }
+
+}

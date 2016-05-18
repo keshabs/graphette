@@ -104,6 +104,7 @@ public:
     void set_decimal_representation(int n);
     int get_decimal_representation() const;
     void construct_decimal_representation();
+    void print_adjLists();
 
 private:
 
