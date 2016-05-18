@@ -92,6 +92,6 @@ void print_matrix(std::vector<std::vector<bool>> matrix);
 bool contain_edge(std::vector<ushort>& edge, std::vector<std::vector<ushort>>& edge_vector);
 
 // Generate a random_Graph
-Graph* random_Graph(int num_nodes);
+Graph random_Graph(int num_nodes);
 
 #endif // GRAPHETTE_HPP

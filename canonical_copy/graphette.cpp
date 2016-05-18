@@ -60,7 +60,6 @@ std::vector<Graph*> generate_all_graphs(int num_nodes)
        	result.push_back(g);
 	}	
 
-	
 	return result;
 }
 
@@ -286,20 +285,18 @@ bool contain_edge(std::vector<ushort>& edge, std::vector<std::vector<ushort>>& e
 {
 	for (auto e : edge_vector)
 	{
-		// if (edge == e)
-		// 	return true;
-		if ((e[0] == edge[0] && e[1] == edge[1]) || (e[0] == edge[1] && e[1] == edge[0]))
+		if (edge == e)
 			return true;
 	}
 	return false;
 }
 
 
-Graph* random_Graph(int num_nodes)
+Graph random_Graph(int num_nodes)
 {
 	if (num_nodes == 0 || num_nodes == 1)
 	{
-		return new Graph(num_nodes);
+		return Graph(num_nodes);
 	}
 
 	srand((int) time(0));
@@ -345,8 +342,7 @@ Graph* random_Graph(int num_nodes)
 	// std::cout << "Number of edges: " << random_number_of_edges << "\n";
 	// std::cout << "Size of Matrix: " << random_matrix.size() << "\n\n";
 
-	Graph* g = new Graph(num_nodes, random_matrix);
-	return g;
+	return Graph(num_nodes, random_matrix);
 }
 
 
