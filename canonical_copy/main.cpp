@@ -25,8 +25,8 @@ int main(int arg, char* argv[])
 	// to make it work.
 	std::vector<std::vector<bool>> v = decimal_to_matrix(300000, 7);
 	
-	Graph* g = random_Graph(atoi(argv[1]));
-	Graph* canonical_Graph = get_canonical(g, graph_canonical);
+	Graph g = random_Graph(atoi(argv[1]));
+	Graph* canonical_Graph = get_canonical(&g, graph_canonical);
 
 	// Check if a random Graph is mapped to a canonical Graph
 	if (canonical_Graph == nullptr)
@@ -40,7 +40,6 @@ int main(int arg, char* argv[])
 	{
 		delete graph_vectors[i];
 	}
-	delete g;
 
 	// Output the time the program takes to run in seconds
 	std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
