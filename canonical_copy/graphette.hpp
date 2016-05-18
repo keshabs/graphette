@@ -6,6 +6,8 @@
 #include <cmath>
 #include <set>
 #include <assert.h>
+#include <stdlib.h>
+#include <time.h>
 #include "Graph.hpp"
 
 // This function takes a decimal number and a number of nodes
@@ -86,5 +88,10 @@ std::vector<std::vector<bool>> decimal_to_matrix(int decimal_number, int num_nod
 // Print only the upper half a matrix
 void print_matrix(std::vector<std::vector<bool>> matrix);
 
+// Check if an edge is in edge_vector
+bool contain_edge(std::vector<ushort>& edge, std::vector<std::vector<ushort>>& edge_vector);
+
+// Generate a random_Graph
+Graph* random_Graph(int num_nodes);
 
 #endif // GRAPHETTE_HPP

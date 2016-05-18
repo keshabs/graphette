@@ -281,3 +281,80 @@ void print_matrix(std::vector<std::vector<bool>> matrix)
 		std::cout << "\n";
 	}
 }
+
+bool contain_edge(std::vector<ushort>& edge, std::vector<std::vector<ushort>>& edge_vector)
+{
+	for (auto e : edge_vector)
+	{
+		// if (edge == e)
+		// 	return true;
+		if ((e[0] == edge[0] && e[1] == edge[1]) || (e[0] == edge[1] && e[1] == edge[0]))
+			return true;
+	}
+	return false;
+}
+
+
+Graph* random_Graph(int num_nodes)
+{
+	if (num_nodes == 0 || num_nodes == 1)
+	{
+		return new Graph(num_nodes);
+	}
+
+	srand((int) time(0));
+	int random_number_of_edges = rand() % (num_nodes*(num_nodes-1)) / 2;
+
+	std::vector<std::vector<ushort>> random_matrix;
+	std::vector<std::vector<ushort>> edge_vector;
+	ushort random_node1, random_node2;
+	std::vector<ushort> edge, reverse_edge;
+
+	for (int i = 0; i < random_number_of_edges; i++)
+	{
+		random_node1 = rand() % num_nodes;
+		random_node2 = rand() % num_nodes;
+
+		// This prevents a node to have an edge to itself
+		while (random_node1 == random_node2)
+		{
+			random_node1 = rand() % num_nodes;
+			random_node2 = rand() % num_nodes;
+		}
+		edge = {random_node1, random_node2};
+		reverse_edge = {random_node2, random_node1};
+
+		// This prevents a node to have an edge to itself and only generates undirected edge		
+		if (contain_edge(edge, edge_vector) || contain_edge(reverse_edge, edge_vector))
+		{
+			while (random_node1 == random_node2 || contain_edge(edge, edge_vector) || contain_edge(reverse_edge, edge_vector))
+			{
+				random_node1 = rand() % num_nodes;
+				random_node2 = rand() % num_nodes;
+				edge = {random_node1, random_node2};
+				reverse_edge = {random_node2, random_node1};
+			}
+		}
+
+		random_matrix.push_back(std::vector<ushort>{random_node1, random_node2});
+		edge_vector.push_back(edge);
+	}
+
+	//// Debugging Purpose:
+	// std::cout << "Max # of edges: " << (num_nodes*(num_nodes-1)) / 2 << "\n";
+	// std::cout << "Number of edges: " << random_number_of_edges << "\n";
+	// std::cout << "Size of Matrix: " << random_matrix.size() << "\n\n";
+
+	Graph* g = new Graph(num_nodes, random_matrix);
+	return g;
+}
+
+
+
+
+
+
+
+
+
+
