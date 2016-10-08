@@ -55,17 +55,10 @@ std::vector<Graph*> generate_all_graphs(int num_nodes)
 		// a number of nodes, and initializes its adjMatrix and adjList vectors.
 		// Otherwise, we will get Segmentation Fault if we don't intialize these
 		// private members in Graph class.
-<<<<<<< HEAD
 		g = new Graph(num_nodes);
 	    g->setAdjMatrix(all_bits_vectors[i]);
 	    g->set_decimal_representation(i);
       	result.push_back(g);
-=======
-		Graph* g = new Graph(num_nodes);
-	        g->setAdjMatrix(all_bits_vectors[i]);
-	        g->set_decimal_representation(i);
-	       	result.push_back(g);
->>>>>>> 3b16480cdc7cab36704b62650b2f64e29ca6bcd5
 	}	
 
 	return result;
@@ -80,7 +73,6 @@ std::vector<Graph*> generate_canonical(const std::vector<Graph*>& graph_vectors)
 
 	for (Graph* i : graph_vectors)
 	{
-<<<<<<< HEAD
 		// Use iterator because the erase() function vector only accepts 
 		// iterator as argument
 		std::vector<Graph*>::iterator j = graph_canonical.begin();
@@ -96,40 +88,12 @@ std::vector<Graph*> generate_canonical(const std::vector<Graph*>& graph_vectors)
 				{
 					graph_canonical.erase(j);
 					graph_canonical.push_back(i);
-=======
-		// Get the first element in the graph_vectors
-		if (graph_canonical.empty())
-		{
-			graph_canonical.push_back(i);
-		}
-
-		else
-		{
-			// Loop through the copy_c vector. Basically loop through a copy of graph_vector
-			// Note that we loop through the previous state of graph_canonical
-			for (auto j = copy_c.begin(); j != copy_c.end(); j++)
-			{
-				// Check if 2 graphs are isomorphic
-				if (graphIsomorphic(**j, *i))
-				{
-					replaced_Graph = true;
-
-					// If tis condition is true, then replace the old canonical graph with the
-					// new canonical one
-					if ((*j)->get_decimal_representation() > i->get_decimal_representation())
-					{
-						graph_canonical.erase(j);
-						graph_canonical.push_back(i);
-					}
-					break;
->>>>>>> 3b16480cdc7cab36704b62650b2f64e29ca6bcd5
 				}
 				break;
 			}
 			j++;
 		}
 
-<<<<<<< HEAD
 		// If 2 graphs are not isomorphic, then execute this if statement
 		// However, if there's at least one pair of graphs that is ismorphic despite the replacment does not occur, we won't push i to the graph_canonical
 		// This avoid readding the same Graph and not the uncanonical ones
@@ -139,18 +103,6 @@ std::vector<Graph*> generate_canonical(const std::vector<Graph*>& graph_vectors)
 		}
 
 		// Reset this flag
-=======
-			// If 2 graphs are not isomorphic, then execute this if statement
-			// However, if there's at least one pair of graphs that is ismorphic despite the replacment does not occur, we won't push i to the graph_canonical
-			// This avoid readding the same Graph and not the uncanonical ones
-			if (!replaced_Graph)
-			{
-				graph_canonical.push_back(i);
-			}
-		}
-		
-		// Reset the replaced_Graph and copy the graph_canonical to copy_c
->>>>>>> 3b16480cdc7cab36704b62650b2f64e29ca6bcd5
 		replaced_Graph = false;
 	}
 
