@@ -8,7 +8,6 @@ int main(int arg, char* argv[])
 	
 	// Generate all graphs with n nodes.
 	// Generate the canonical array, in this case it's a vector.
-	// std::cout << (std::vector<ushort>{1, 3} == std::vector<ushort>{1, 3}) << "\n";
 	std::vector<Graph*> graph_vectors = generate_all_graphs(atoi(argv[1]));
 	std::vector<Graph*> graph_canonical = generate_canonical(graph_vectors);
 	std::cout << "Number of graphs                 : " << graph_vectors.size() << "\n";
@@ -17,24 +16,11 @@ int main(int arg, char* argv[])
 	// This will show the decimal representations of adjMatrix of each Graph
 	std::cout << "Canonical Graph adjMatrix dec_rep: ";
 	for (Graph* g : graph_canonical)
-		std::cout << g->get_decimal_representation() << " ";
+	{
+		std::cout << "G" << g->get_decimal_representation() << " ";
+	}
 	std::cout << "\n\n";
-
-	// This will give an assertion error because a Graph with 7 nodes
-	// can only have up to 2097152 edges. Delete just 1 digit in 3000000
-	// to make it work.
-	std::vector<std::vector<bool>> v = decimal_to_matrix(300000, 7);
-	
-	Graph g = random_Graph(atoi(argv[1]));
-	Graph* canonical_Graph = get_canonical(&g, graph_canonical);
-
-	// Check if a random Graph is mapped to a canonical Graph
-	if (canonical_Graph == nullptr)
-		std::cout << "No Match\n";
-	else
-		std::cout << "Matched: Graph " << canonical_Graph->get_decimal_representation() << "\n";
-	
-
+		
 	// Deallocate all Graphs
 	for (unsigned int i = 0; i < graph_vectors.size(); i++)
 	{
