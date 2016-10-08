@@ -43,10 +43,11 @@ std::vector<std::vector<bool>> generate_all_bits_vectors(int num_nodes)
 
 std::vector<Graph*> generate_all_graphs(int num_nodes)
 {
+	int num_graphs = (num_nodes == 0) ? 0 : pow(2, (num_nodes*(num_nodes - 1)) / 2);
 	std::vector<std::vector<bool>> all_bits_vectors = generate_all_bits_vectors(num_nodes);
-	int num_graphs = pow(2, (num_nodes*(num_nodes - 1)) / 2);
 	std::vector<Graph*> result;
 
+	Graph* g = nullptr;
 	for (int i = 0; i < num_graphs; i++)
 	{
 		// The way I have constructed these Graphs is to define a new 
@@ -54,10 +55,10 @@ std::vector<Graph*> generate_all_graphs(int num_nodes)
 		// a number of nodes, and initializes its adjMatrix and adjList vectors.
 		// Otherwise, we will get Segmentation Fault if we don't intialize these
 		// private members in Graph class.
-		Graph* g = new Graph(num_nodes);
-        g->setAdjMatrix(all_bits_vectors[i]);
+		g = new Graph(num_nodes);
+	    g->setAdjMatrix(all_bits_vectors[i]);
 	    g->set_decimal_representation(i);
-       	result.push_back(g);
+      	result.push_back(g);
 	}	
 
 	return result;
@@ -69,46 +70,49 @@ std::vector<Graph*> generate_canonical(const std::vector<Graph*>& graph_vectors)
 	// replaced_Graph is used to determine whether to insert a new Graph into graph_canonical or not
 	bool replaced_Graph = false;
 	std::vector<Graph*> graph_canonical;
-	std::vector<Graph*> copy_c;
 
-	for (auto i : graph_vectors)
+	for (Graph* i : graph_vectors)
 	{
-		if (graph_canonical.empty())
+		// Use iterator because the erase() function vector only accepts 
+		// iterator as argument
+		std::vector<Graph*>::iterator j = graph_canonical.begin();
+		while (j != graph_canonical.end())
 		{
-			graph_canonical.push_back(i);
-		}
-
-		else
-		{
-			for (auto j = copy_c.begin(); j != copy_c.end(); j++)
+			if (graphIsomorphic(**j, *i))
 			{
-				if (graphIsomorphic(**j, *i))
-				{
-					replaced_Graph = true;
-					if ((*j)->get_decimal_representation() > i->get_decimal_representation())
-					{
-						graph_canonical.erase(j);
-						graph_canonical.push_back(i);
-					}
-					break;
-				}
-			}
+				replaced_Graph = true;
 
-			if (!replaced_Graph)
+				// If this condition is true, then replace the 
+				// old canonical graph with the new canonical one
+				if ((*j)->get_decimal_representation() > i->get_decimal_representation())
+				{
+					graph_canonical.erase(j);
 					graph_canonical.push_back(i);
+				}
+				break;
+			}
+			j++;
 		}
 
+		// If 2 graphs are not isomorphic, then execute this if statement
+		// However, if there's at least one pair of graphs that is ismorphic despite the replacment does not occur, we won't push i to the graph_canonical
+		// This avoid readding the same Graph and not the uncanonical ones
+		if (!replaced_Graph)
+		{
+				graph_canonical.push_back(i);
+		}
+
+		// Reset this flag
 		replaced_Graph = false;
-		copy_c = graph_canonical;
-	}	
+	}
 
 	return graph_canonical;	
 }
 
 
-Graph* get_canonical(Graph* g, std::vector<Graph*> graph_canonical)
+Graph* get_canonical(Graph* g, std::vector<Graph*>& graph_canonical)
 {
-	for (auto i : graph_canonical)
+	for (Graph* i : graph_canonical)
 	{
 		if (graphIsomorphic(*i, *g))
 		{
@@ -143,15 +147,16 @@ bool GraphAreConnected(Graph *G, int i, int j)
 	vector<vector<ushort>> adjList;
 	G->getAdjLists(adjList);
 	neighbors = adjList[me];
+
 	for(k=0; k<n; k++)
 	    if(neighbors[k] == other)
-		return true;
+			return true;
+
 	return false;
 
 }
 
-static bool _allPermutations
-    (int n, int i, int *preArray, bool (*fcn)(int, int *))
+static bool _allPermutations(int n, int i, int *preArray, bool (*fcn)(int, int *))
 {
     int j;
     if( n == i) /* output! */
@@ -159,19 +164,20 @@ static bool _allPermutations
 
     for(j=0; j < n; j++)    /* put in slot i all j's not already appearing */
     {
-	int k;
-	for(k=0; k<i; k++)  /* see if this j's already been used */
-	{
-	    if(preArray[k] == j)
-		break;
-	}
-	if(k == i)  /* this j hasn't appeared yet */
-	{
-	    int result;
-	    preArray[i] = j;
-	    if((result = _allPermutations(n, i+1, preArray, fcn)))
-		return result;
-	}
+		int k;
+		for(k=0; k<i; k++)  /* see if this j's already been used */
+		{
+		    if(preArray[k] == j)
+			break;
+		}
+
+		if(k == i)  /* this j hasn't appeared yet */
+		{
+		    int result;
+		    preArray[i] = j;
+		    if((result = _allPermutations(n, i+1, preArray, fcn)))
+			return result;
+		}
     }
     return false;
 }
@@ -266,7 +272,7 @@ std::vector<std::vector<bool>> decimal_to_matrix(int decimal_number, int num_nod
 }
 
 
-void print_matrix(std::vector<std::vector<bool>> matrix)
+void print_matrix(const std::vector<std::vector<bool>>& matrix)
 {
 	for (unsigned int i = 0; i < matrix.size(); i++)
 	{
@@ -283,7 +289,7 @@ void print_matrix(std::vector<std::vector<bool>> matrix)
 
 bool contain_edge(std::vector<ushort>& edge, std::vector<std::vector<ushort>>& edge_vector)
 {
-	for (auto e : edge_vector)
+	for (const std::vector<ushort>& e : edge_vector)
 	{
 		if (edge == e)
 			return true;
@@ -337,20 +343,95 @@ Graph random_Graph(int num_nodes)
 		edge_vector.push_back(edge);
 	}
 
-	//// Debugging Purpose:
-	// std::cout << "Max # of edges: " << (num_nodes*(num_nodes-1)) / 2 << "\n";
-	// std::cout << "Number of edges: " << random_number_of_edges << "\n";
-	// std::cout << "Size of Matrix: " << random_matrix.size() << "\n\n";
-
 	return Graph(num_nodes, random_matrix);
 }
 
+std::vector<std::vector<ushort>> remove_duplicate_edges(Graph& g)
+{
+	std::vector<std::vector<ushort>> copy_adjList;
+	g.getAdjLists(copy_adjList);
+	std::vector<ushort> edge, reverse_edge;
+	std::vector<std::vector<ushort>> edge_vector;
 
+	for (unsigned int i = 0; i < copy_adjList.size(); i++)
+    {
+    	// Check if a node has an edge to itself
+    	if (copy_adjList[i].empty())
+    	{
+    		edge = {static_cast<ushort>(i),static_cast<ushort>(i)};
+    		edge_vector.push_back(edge);
+    		continue;
+    	}
+        for (unsigned int j = 0; j < copy_adjList[i].size(); j++)
+        {
+        	edge = {static_cast<ushort>(i), copy_adjList[i][j]};
+        	reverse_edge = {copy_adjList[i][j], static_cast<ushort>(i)};
+        	if (!contain_edge(edge, edge_vector) && !contain_edge(reverse_edge, edge_vector))
+        	{
+        		edge_vector.push_back(edge);
+        	}
+        }
+    }
 
+    return edge_vector;
+}
 
+std::vector<ushort> assign_node_position(int n)
+{
+	ushort x, y;
+	std::vector<ushort> result;
 
+	switch (n)
+	{
+		case 0:
+			x = 0; y = 0;
+			break;
+		case 1:
+			x = 0; y = 2;
+			break;
+		case 2:
+			x = 0; y = 4;
+			break;
+		case 3:
+			x = 4; y = 0;
+			break;
+		case 4:
+			x = 4; y = 2;
+			break;
+		case 5:
+			x = 4; y = 4;
+			break;
+	}
+	result.push_back(x);
+	result.push_back(y);
 
+	return result;
+}
 
+void write_graphs_to_file(std::string file, std::vector<std::vector<ushort>> adjList, int num_nodes)
+{
+	std::ofstream output(file);
 
+	// output << "graph Graphette\n{\n\trankdir = LR;\n";
+	output << "graph Graphette\n{\n";
 
+	for (int i = 0; i < num_nodes; i++)
+	{
+		int x = assign_node_position(i)[0];
+		int y = assign_node_position(i)[1];
 
+		output << "\t" << i << " [pos = \"" << x << ", " << y << "!\"]\n";
+
+	}
+
+	for (const std::vector<ushort>& i : adjList)
+	{
+		if (i[0] == i[1])
+			output << "\t" << i[0] << ";\n";
+		else
+			output << "\t" << i[0] << " -- " << i[1] << ";\n";
+	}
+
+	output << "}";
+	output.close();
+}
